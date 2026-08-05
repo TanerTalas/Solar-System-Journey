@@ -3,17 +3,16 @@
 import { PerformanceMonitor } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { memo, Suspense, useState } from "react";
-import { JourneyScene, type Tick } from "@/components/journey/journey-scene";
-import { Starfield } from "@/components/three/starfield";
+import { JourneyScene, type Stage, type Tick } from "@/components/journey/journey-scene";
 
 type Props = {
   running: boolean;
   pace: number;
-  spin: number;
+  reduced: boolean;
   skipToken: number;
   replayToken: number;
   onTick: (tick: Tick) => void;
-  onEnd: () => void;
+  onStage: (stage: Stage) => void;
 };
 
 /**
@@ -40,9 +39,6 @@ export const JourneyCanvas = memo(function JourneyCanvas(props: Props) {
         onFallback={() => setDpr(1)}
       />
       <Suspense fallback={null}>
-        {/* nothing here is ever closer than a flyby, so 1k maps are already
-            about one texel per pixel — and twelve of them stay in memory */}
-        <Starfield res="1k" radius={9000} />
         <JourneyScene {...props} />
       </Suspense>
     </Canvas>

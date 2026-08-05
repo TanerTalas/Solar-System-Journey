@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { ChevronRight } from "@/components/icons";
 import { JourneyCanvas } from "@/components/journey/journey-canvas";
-import type { Tick } from "@/components/journey/journey-scene";
+import type { Stage as FlightStage, Tick } from "@/components/journey/journey-scene";
 import { SceneLoader } from "@/components/three/scene-loader";
 import { BODIES } from "@/data/bodies";
 import { auLabel, kmLabel, speedLabel } from "@/lib/format";
@@ -17,7 +17,7 @@ const START_SUBTITLE =
 /** the readout refreshes ten times a second; the flight runs at sixty */
 const HUD_INTERVAL_MS = 100;
 
-type Stage = "ready" | "flight" | "end";
+type Stage = "ready" | FlightStage;
 
 export function JourneyView() {
   const [stage, setStage] = useState<Stage>("ready");
@@ -44,9 +44,11 @@ export function JourneyView() {
     if (fill.current) fill.current.style.width = `${(tick.progress * 100).toFixed(1)}%`;
   }, []);
 
-  const onEnd = useCallback(() => setStage("end"), []);
+  const onStage = useCallback((next: FlightStage) => setStage(next), []);
 
   const started = stage !== "ready";
+  // once the hole arrives the flight is over, so the chrome steps aside
+  const arrived = stage === "hole" || stage === "end";
   const ended = stage === "end";
 
   return (
@@ -54,12 +56,15 @@ export function JourneyView() {
       <JourneyCanvas
         running={started}
         pace={1}
-        spin={reduced ? 0 : 0.02}
+        reduced={reduced}
         skipToken={skipToken}
         replayToken={replayToken}
         onTick={onTick}
-        onEnd={onEnd}
+        onStage={onStage}
       />
+
+      {/* the burst throws light across the whole frame for a moment */}
+      {arrived && !reduced && <div key={replayToken} className="flash" aria-hidden />}
 
       <SceneLoader label="Charting the route…" />
       <div className="journey-vignette" />
@@ -105,8 +110,8 @@ export function JourneyView() {
         <div
           className="journey-chrome"
           style={{
-            opacity: started && !ended ? 1 : 0,
-            pointerEvents: started && !ended ? "auto" : "none",
+            opacity: started && !arrived ? 1 : 0,
+            pointerEvents: started && !arrived ? "auto" : "none",
           }}
         >
           <button type="button" className="btn btn-skip" onClick={() => setSkipToken((n) => n + 1)}>

@@ -148,6 +148,18 @@
     }
   }
 
+  /* the moment Sagittarius A* lands */
+  .flash {
+    @apply pointer-events-none absolute inset-0 z-10;
+    background: radial-gradient(
+      ellipse at 50% 50%,
+      rgb(255 246 226 / 0.92) 0%,
+      rgb(255 206 150 / 0.45) 26%,
+      rgb(5 6 12 / 0) 62%
+    );
+    animation: flash 0.9s cubic-bezier(0.16, 0.84, 0.32, 1) both;
+  }
+
   /* ── end card ───────────────────────────────────────────── */
 
   .end {
