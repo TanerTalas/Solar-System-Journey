@@ -43,3 +43,10 @@ CLAUDE.md
 AGENTS.md
 .claude/
 *.dc.html
+
+# prototype sources the dc pages pull in
+/support.js
+/black-hole.js
+/space-journey.js
+/planet-view.js
+/_ds/

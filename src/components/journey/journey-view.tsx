@@ -57,6 +57,7 @@ export function JourneyView() {
         running={started}
         pace={1}
         reduced={reduced}
+        lensing={arrived}
         skipToken={skipToken}
         replayToken={replayToken}
         onTick={onTick}

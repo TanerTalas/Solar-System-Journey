@@ -3,7 +3,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { BlackHole } from "@/components/three/black-hole";
+import { BlackHole, initialHoleState } from "@/components/three/black-hole";
 import { Planet } from "@/components/three/planet";
 import { Starfield } from "@/components/three/starfield";
 import { BODIES } from "@/data/bodies";
@@ -27,11 +27,12 @@ const BURST_SECONDS = 0.5;
 const HOLD_SECONDS = 1.4;
 const DRIFT_UNITS_PER_SECOND = 90;
 
-/** the hole rides this far ahead of the camera, so only its scale sells the burst */
-const HOLE_DISTANCE = 60;
-const SPARK_SCALE = 0.055;
-const APPROACH_SCALE = 0.6;
-const HOLE_SCALE = 8.5;
+/** the burst closes on the hole, in Schwarzschild radii — the prototype's
+    control tops out at 34 and defaults to 13.5 */
+const HOLE_FAR_RS = 34;
+const HOLE_NEAR_RS = 13.5;
+/** and eases back to here while the end card lands */
+const HOLE_REST_RS = 19;
 /** thick enough to swallow a starfield 9000 units out, thin enough to spare the hole */
 const FOG_DENSITY = 3.4e-4;
 
@@ -158,7 +159,7 @@ export function JourneyScene({
   const clock = useRef(0);
   const skipping = useRef(false);
   const stage = useRef<Stage>("flight");
-  const hole = useRef<THREE.Group>(null);
+  const hole = useRef(initialHoleState());
   const fog = useRef<THREE.FogExp2>(null);
 
   useEffect(() => {
@@ -170,7 +171,7 @@ export function JourneyScene({
     clock.current = 0;
     skipping.current = false;
     stage.current = "flight";
-    if (hole.current) hole.current.visible = false;
+    Object.assign(hole.current, initialHoleState());
     if (fog.current) fog.current.density = 0;
   }, [replayToken]);
 
@@ -204,21 +205,22 @@ export function JourneyScene({
 
       if (fog.current) fog.current.density = FOG_DENSITY * smooth(dark);
 
-      if (hole.current) {
-        // once it has landed it drifts up a little, clearing room for the card
-        const settle = THREE.MathUtils.clamp(
-          (coda - DARK_SECONDS - BURST_SECONDS) / HOLD_SECONDS,
-          0,
-          1,
-        );
-        hole.current.visible = true;
-        hole.current.position.set(0, smooth(settle) * 5, z + HOLE_DISTANCE);
-        const scale =
-          burst > 0
-            ? THREE.MathUtils.lerp(APPROACH_SCALE, HOLE_SCALE, outBack(burst))
-            : THREE.MathUtils.lerp(SPARK_SCALE, APPROACH_SCALE, dark * dark);
-        hole.current.scale.setScalar(scale);
-      }
+      // once it has landed the view eases back, clearing room for the card
+      const settle = THREE.MathUtils.clamp(
+        (coda - DARK_SECONDS - BURST_SECONDS) / HOLD_SECONDS,
+        0,
+        1,
+      );
+
+      // the spark grows in the dark, then the raymarched hole takes the frame
+      hole.current.spark = burst > 0 ? 0 : THREE.MathUtils.lerp(0.1, 1.5, dark * dark);
+      hole.current.active = burst > 0;
+      hole.current.radius =
+        settle > 0
+          ? THREE.MathUtils.lerp(HOLE_NEAR_RS, HOLE_REST_RS, smooth(settle))
+          : THREE.MathUtils.lerp(HOLE_FAR_RS, HOLE_NEAR_RS, outBack(burst));
+      hole.current.reveal = smooth(THREE.MathUtils.clamp(burst / 0.4, 0, 1));
+      hole.current.sky = smooth(THREE.MathUtils.clamp(burst / 0.7, 0, 1)) * 0.5;
 
       if (burst > 0 && burst < 0.7 && !reduced) shake = (1 - burst / 0.7) * 0.55;
 
@@ -273,7 +275,7 @@ export function JourneyScene({
         </group>
       ))}
 
-      <BlackHole ref={hole} spin={reduced ? 0 : 0.32} />
+      <BlackHole state={hole} />
     </>
   );
 }
