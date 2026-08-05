@@ -206,7 +206,7 @@ export function JourneyScene({
 
       {layout.map(({ body, radius, position }) => (
         <group key={body.slug} position={position} scale={radius}>
-          <Planet body={body} res="2k" segments={48} spin={spin} detail />
+          <Planet body={body} res="1k" segments={40} spin={spin} detail />
         </group>
       ))}
     </>

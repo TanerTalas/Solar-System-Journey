@@ -40,6 +40,7 @@ const SOURCES = [
 const VARIANTS = [
   { dir: "4k", width: 4096 },
   { dir: "2k", width: 2048 },
+  { dir: "1k", width: 1024 },
 ];
 
 async function exists(file) {

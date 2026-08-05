@@ -16,7 +16,8 @@ function useColorMap(path: string) {
   return useTexture(path, (loaded) => {
     for (const texture of Array.isArray(loaded) ? loaded : [loaded]) {
       texture.colorSpace = THREE.SRGBColorSpace;
-      texture.anisotropy = gl.capabilities.getMaxAnisotropy();
+      // 16× costs real sampling time and nothing past 8 is visible here
+      texture.anisotropy = Math.min(8, gl.capabilities.getMaxAnisotropy());
       texture.wrapS = THREE.RepeatWrapping;
       texture.needsUpdate = true;
     }

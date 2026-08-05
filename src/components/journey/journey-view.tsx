@@ -14,22 +14,34 @@ const START_TITLE = "Outward bound";
 const START_SUBTITLE =
   "The Sun to the last planet at true spacing — a sprint between worlds, a breath beside each one.";
 
+/** the readout refreshes ten times a second; the flight runs at sixty */
+const HUD_INTERVAL_MS = 100;
+
 type Stage = "ready" | "flight" | "end";
 
 export function JourneyView() {
   const [stage, setStage] = useState<Stage>("ready");
-  const [tick, setTick] = useState<Tick>({ km: 0, speedC: 0, progress: 0 });
   const [skipToken, setSkipToken] = useState(0);
   const [replayToken, setReplayToken] = useState(0);
-  const last = useRef<Tick>(tick);
   const reduced = usePrefersReducedMotion();
 
-  // coarse-grain the numeric churn so React only sees ~10 updates a second
-  const onTick = useCallback((next: Tick) => {
-    const prev = last.current;
-    if (Math.abs(next.km - prev.km) < 1 && Math.abs(next.progress - prev.progress) < 0.002) return;
-    last.current = next;
-    setTick(next);
+  const km = useRef<HTMLDivElement>(null);
+  const au = useRef<HTMLDivElement>(null);
+  const speed = useRef<HTMLDivElement>(null);
+  const fill = useRef<HTMLDivElement>(null);
+  const lastPaint = useRef(0);
+
+  // the numbers are written straight to the DOM: a React render per frame
+  // would reconcile the whole scene sixty times a second
+  const onTick = useCallback((tick: Tick) => {
+    const now = performance.now();
+    if (now - lastPaint.current < HUD_INTERVAL_MS) return;
+    lastPaint.current = now;
+
+    if (km.current) km.current.textContent = kmLabel(tick.km);
+    if (au.current) au.current.textContent = auLabel(tick.km);
+    if (speed.current) speed.current.textContent = speedLabel(tick.speedC);
+    if (fill.current) fill.current.style.width = `${(tick.progress * 100).toFixed(1)}%`;
   }, []);
 
   const onEnd = useCallback(() => setStage("end"), []);
@@ -65,12 +77,18 @@ export function JourneyView() {
           <div className="hud-stats">
             <div className="hud-stat">
               <div className="hud-stat-label">Travelled</div>
-              <div className="hud-stat-value">{kmLabel(tick.km)}</div>
-              <div className="hud-stat-note">{auLabel(tick.km)}</div>
+              <div ref={km} className="hud-stat-value">
+                0 km
+              </div>
+              <div ref={au} className="hud-stat-note">
+                0.000 AU
+              </div>
             </div>
             <div className="hud-stat">
               <div className="hud-stat-label">Velocity</div>
-              <div className="hud-stat-value">{speedLabel(tick.speedC)}</div>
+              <div ref={speed} className="hud-stat-value">
+                0.00
+              </div>
               <div className="hud-stat-note">× speed of light</div>
             </div>
           </div>
@@ -80,13 +98,16 @@ export function JourneyView() {
       <div className="journey-foot" style={{ opacity: started ? 1 : 0 }}>
         <div className="progress">
           <div className="progress-track">
-            <div className="progress-fill" style={{ width: `${(tick.progress * 100).toFixed(1)}%` }} />
+            <div ref={fill} className="progress-fill" style={{ width: "0%" }} />
           </div>
         </div>
 
         <div
           className="journey-chrome"
-          style={{ opacity: started && !ended ? 1 : 0, pointerEvents: started && !ended ? "auto" : "none" }}
+          style={{
+            opacity: started && !ended ? 1 : 0,
+            pointerEvents: started && !ended ? "auto" : "none",
+          }}
         >
           <button type="button" className="btn btn-skip" onClick={() => setSkipToken((n) => n + 1)}>
             Skip to the end
