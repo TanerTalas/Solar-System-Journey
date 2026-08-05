@@ -11,6 +11,8 @@ export type Body = {
   stats: Stat[];
   /** query sent to the NASA image library */
   nasaQuery: string;
+  /** exact en.wikipedia title — a loose one lands on a disambiguation page */
+  wikiTitle: string;
   /** basename under /textures/{4k,2k}/ */
   texture: string;
   /** mean radius, km */
@@ -38,6 +40,7 @@ export const BODIES: Body[] = [
       { label: "Age", value: "4.6 bn years" },
     ],
     nasaQuery: "sun solar flare dynamics observatory",
+    wikiTitle: "Sun",
     texture: "sun",
     radiusKm: 696340,
     distanceKm: 0,
@@ -57,6 +60,7 @@ export const BODIES: Body[] = [
       { label: "Solar day", value: "176 days" },
     ],
     nasaQuery: "mercury planet messenger",
+    wikiTitle: "Mercury_(planet)",
     texture: "mercury",
     radiusKm: 2440,
     distanceKm: 57.9e6,
@@ -76,6 +80,7 @@ export const BODIES: Body[] = [
       { label: "Surface", value: "464 °C" },
     ],
     nasaQuery: "venus planet magellan",
+    wikiTitle: "Venus",
     texture: "venus",
     radiusKm: 6052,
     distanceKm: 108.2e6,
@@ -95,6 +100,7 @@ export const BODIES: Body[] = [
       { label: "Ocean cover", value: "71%" },
     ],
     nasaQuery: "earth from space",
+    wikiTitle: "Earth",
     texture: "earth",
     radiusKm: 6371,
     distanceKm: 149.6e6,
@@ -114,6 +120,7 @@ export const BODIES: Body[] = [
       { label: "Drift", value: "+3.8 cm / yr" },
     ],
     nasaQuery: "apollo moon surface",
+    wikiTitle: "Moon",
     texture: "moon",
     radiusKm: 1737,
     distanceKm: 149.6e6 + 384400,
@@ -133,6 +140,7 @@ export const BODIES: Body[] = [
       { label: "Olympus Mons", value: "21.9 km" },
     ],
     nasaQuery: "mars surface curiosity",
+    wikiTitle: "Mars",
     texture: "mars",
     radiusKm: 3390,
     distanceKm: 227.9e6,
@@ -152,6 +160,7 @@ export const BODIES: Body[] = [
       { label: "Known moons", value: "95" },
     ],
     nasaQuery: "jupiter planet juno",
+    wikiTitle: "Jupiter",
     texture: "jupiter",
     radiusKm: 69911,
     distanceKm: 778.5e6,
@@ -171,6 +180,7 @@ export const BODIES: Body[] = [
       { label: "Ring span", value: "280,000 km" },
     ],
     nasaQuery: "saturn planet cassini",
+    wikiTitle: "Saturn",
     texture: "saturn",
     radiusKm: 58232,
     distanceKm: 1432e6,
@@ -191,6 +201,7 @@ export const BODIES: Body[] = [
       { label: "Axial tilt", value: "98°" },
     ],
     nasaQuery: "uranus planet voyager",
+    wikiTitle: "Uranus",
     texture: "uranus",
     radiusKm: 25362,
     distanceKm: 2867e6,
@@ -210,6 +221,7 @@ export const BODIES: Body[] = [
       { label: "Winds", value: "2,100 km/h" },
     ],
     nasaQuery: "neptune planet voyager",
+    wikiTitle: "Neptune",
     texture: "neptune",
     radiusKm: 24622,
     distanceKm: 4500e6,

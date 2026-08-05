@@ -34,6 +34,22 @@ node scripts/build-textures.mjs
 
 Script orijinalleri `.cache/textures` altına indirir (git'e girmez) ve iki boyutta webp üretir.
 
+## Metin
+
+Detay penceresindeki paragraf **en.wikipedia** özetinden geliyor ve build zamanında
+`src/data/wiki-cache.json`'a yazılıyor — böylece pencere metinle birlikte açılıyor, ağ
+olmadan da çalışıyor ve metnin ne dediği diff'te görünüyor. 700 karakterde, cümle
+sonunda kırpılıyor; içinde bağlantı ya da işaretleme yok. Atıf (CC BY-SA 4.0) ve makale
+bağlantısı pencerenin altında.
+
+Tazelemek için:
+
+```bash
+node scripts/build-wiki.mjs
+```
+
+Bir gövdenin özeti gelmezse `bodies.ts` içindeki yazılı metin devreye girer.
+
 ## Yapı
 
 ```

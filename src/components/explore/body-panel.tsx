@@ -5,8 +5,15 @@ import { useExploreNav } from "@/components/explore/explore-nav-context";
 import { NasaOverlay } from "@/components/explore/nasa-overlay";
 import { Overlay } from "@/components/overlay";
 import type { Body } from "@/data/bodies";
+import wikiCache from "@/data/wiki-cache.json";
+
+type WikiEntry = { title: string; extract: string; source: string };
+const wiki = wikiCache as Record<string, WikiEntry | undefined>;
 
 export function BodyPanel({ body }: { body: Body }) {
+  // baked at build time by scripts/build-wiki.mjs; the written fallback in
+  // bodies.ts keeps the card full if an entry ever goes missing
+  const entry = wiki[body.slug];
   const [open, setOpen] = useState<"details" | "nasa" | null>(null);
   const { setNavLocked } = useExploreNav();
 
@@ -51,9 +58,19 @@ export function BodyPanel({ body }: { body: Body }) {
               </div>
             ))}
           </dl>
-          <p className="overlay-body">{body.long}</p>
+          <p className="overlay-body">{entry?.extract ?? body.long}</p>
           <div className="overlay-credit">
             Figures · NASA planetary fact sheets
+            {entry && (
+              <>
+                <br />
+                Text · excerpt from Wikipedia,{" "}
+                <a href={entry.source} target="_blank" rel="noreferrer">
+                  {entry.title}
+                </a>{" "}
+                — CC BY-SA 4.0
+              </>
+            )}
             <br />
             Surface maps ·{" "}
             <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noreferrer">
