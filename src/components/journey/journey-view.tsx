@@ -49,6 +49,8 @@ export function JourneyView() {
   const started = stage !== "ready";
   // once the hole arrives the flight is over, so the chrome steps aside
   const arrived = stage === "hole" || stage === "end";
+  // past Neptune there is nothing left to skip
+  const coasting = started && stage !== "flight";
   const ended = stage === "end";
 
   return (
@@ -66,6 +68,9 @@ export function JourneyView() {
 
       {/* the burst throws light across the whole frame for a moment */}
       {arrived && !reduced && <div key={replayToken} className="flash" aria-hidden />}
+
+      {/* the skip is a cut; this rides over the seam */}
+      {skipToken > 0 && <div key={`cut-${skipToken}`} className="cut" aria-hidden />}
 
       <SceneLoader label="Charting the route…" />
       <div className="journey-vignette" />
@@ -111,8 +116,8 @@ export function JourneyView() {
         <div
           className="journey-chrome"
           style={{
-            opacity: started && !arrived ? 1 : 0,
-            pointerEvents: started && !arrived ? "auto" : "none",
+            opacity: started && !coasting ? 1 : 0,
+            pointerEvents: started && !coasting ? "auto" : "none",
           }}
         >
           <button type="button" className="btn btn-skip" onClick={() => setSkipToken((n) => n + 1)}>

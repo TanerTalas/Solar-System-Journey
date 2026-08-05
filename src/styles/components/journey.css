@@ -148,6 +148,12 @@
     }
   }
 
+  /* covers the cut when the skip button jumps to the dark */
+  .cut {
+    @apply pointer-events-none absolute inset-0 z-10 bg-void;
+    animation: cut 0.55s ease both;
+  }
+
   /* the moment Sagittarius A* lands */
   .flash {
     @apply pointer-events-none absolute inset-0 z-10;

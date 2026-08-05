@@ -136,21 +136,6 @@ export function ExploreShell({ children }: { children: ReactNode }) {
           {prev?.name ?? ""}
         </button>
 
-        <div className="nav-dots">
-          {BODIES.map((b, i) => (
-            <button
-              key={b.slug}
-              type="button"
-              className="nav-dot-btn"
-              onClick={() => go(i)}
-              aria-current={i === index}
-              aria-label={b.name}
-            >
-              <span className="nav-dot" />
-            </button>
-          ))}
-        </div>
-
         <button
           type="button"
           className="btn nav-btn"

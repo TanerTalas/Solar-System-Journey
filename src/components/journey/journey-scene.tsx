@@ -16,8 +16,10 @@ const SIZE_UNIT = 1e5;
 const DWELL_SECONDS = 0.9;
 /** the sprint between two bodies, in seconds */
 const CRUISE_SECONDS = 1.2;
-/** how fast the skip button winds the film forward */
-const SKIP_RATE = 26;
+/** where the skip button lands: in the dark, with the light already showing.
+    Winding the flight forward instead would strobe the whole system past the
+    eye in a second — not something to put in front of anyone. */
+const SKIP_TO = 0.35;
 
 /** past Neptune: the sky fades out and a point of light grows ahead */
 const DARK_SECONDS = 2.4;
@@ -157,19 +159,19 @@ export function JourneyScene({
 }: SceneProps) {
   const camera = useThree((s) => s.camera);
   const clock = useRef(0);
-  const skipping = useRef(false);
   const stage = useRef<Stage>("flight");
   const hole = useRef(initialHoleState());
   const fog = useRef<THREE.FogExp2>(null);
 
   useEffect(() => {
-    if (skipToken > 0) skipping.current = true;
+    if (skipToken === 0) return;
+    // a cut, not a fast-forward
+    clock.current = FLIGHT_SECONDS + DARK_SECONDS * SKIP_TO;
   }, [skipToken]);
 
   useEffect(() => {
     if (replayToken === 0) return;
     clock.current = 0;
-    skipping.current = false;
     stage.current = "flight";
     Object.assign(hole.current, initialHoleState());
     if (fog.current) fog.current.density = 0;
@@ -177,12 +179,7 @@ export function JourneyScene({
 
   useFrame((_, rawDelta) => {
     const dt = Math.min(rawDelta, 0.05) * pace;
-    const rate = skipping.current ? SKIP_RATE : 1;
-
-    if (running) {
-      clock.current += dt * rate;
-      if (skipping.current && clock.current >= FLIGHT_SECONDS) skipping.current = false;
-    }
+    if (running) clock.current += dt;
 
     const time = Math.min(clock.current, FLIGHT_SECONDS);
     const coda = Math.max(0, clock.current - FLIGHT_SECONDS);
@@ -195,7 +192,7 @@ export function JourneyScene({
       ? 0
       : coda > 0
         ? DRIFT_UNITS_PER_SECOND
-        : (span * (phase.cruise ? smoothPrime(f) : 1) * rate) / phase.duration;
+        : (span * (phase.cruise ? smoothPrime(f) : 1)) / phase.duration;
 
     // ── the coda: dark, then the light, then the hole ──────────
     let shake = 0;
