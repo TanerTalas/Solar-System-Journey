@@ -13,25 +13,25 @@ const DIST_UNIT = 1e6;
 /** bodies are drawn ten times larger than the distance scale, so they read at speed */
 const SIZE_UNIT = 1e5;
 /** the breath beside a body, in seconds */
-const DWELL_SECONDS = 1.7;
+const DWELL_SECONDS = 0.9;
 /** the sprint between two bodies, in seconds */
-const CRUISE_SECONDS = 2.6;
+const CRUISE_SECONDS = 1.2;
 /** how fast the skip button winds the film forward */
 const SKIP_RATE = 26;
 
 /** past Neptune: the sky fades out and a point of light grows ahead */
-const DARK_SECONDS = 4.2;
+const DARK_SECONDS = 2.4;
 /** the light becomes Sagittarius A*, all at once */
-const BURST_SECONDS = 0.55;
+const BURST_SECONDS = 0.5;
 /** how long the hole holds the frame before the card lands */
-const HOLD_SECONDS = 1.7;
+const HOLD_SECONDS = 1.4;
 const DRIFT_UNITS_PER_SECOND = 90;
 
 /** the hole rides this far ahead of the camera, so only its scale sells the burst */
 const HOLE_DISTANCE = 60;
 const SPARK_SCALE = 0.055;
 const APPROACH_SCALE = 0.6;
-const HOLE_SCALE = 10;
+const HOLE_SCALE = 8.5;
 /** thick enough to swallow a starfield 9000 units out, thin enough to spare the hole */
 const FOG_DENSITY = 3.4e-4;
 
