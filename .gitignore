@@ -35,6 +35,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# texture download cache
+/.cache
+
 # agent files
 CLAUDE.md
 AGENTS.md
