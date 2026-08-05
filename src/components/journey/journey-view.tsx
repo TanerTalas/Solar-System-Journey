@@ -5,14 +5,13 @@ import { useCallback, useRef, useState } from "react";
 import { ChevronRight } from "@/components/icons";
 import { JourneyCanvas } from "@/components/journey/journey-canvas";
 import type { Stage as FlightStage, Tick } from "@/components/journey/journey-scene";
-import { SceneLoader } from "@/components/three/scene-loader";
 import { BODIES } from "@/data/bodies";
 import { auLabel, kmLabel, speedLabel } from "@/lib/format";
 import { usePrefersReducedMotion } from "@/lib/preferences";
 
-const START_TITLE = "Outward bound";
+const START_TITLE = "Worlds, explained";
 const START_SUBTITLE =
-  "The Sun to the last planet at true spacing — a sprint between worlds, a breath beside each one.";
+  "Fly the Sun to the last planet at true spacing, then meet each world up close: what it is, how big, how far, and the pictures we have of it.";
 
 /** the readout refreshes ten times a second; the flight runs at sixty */
 const HUD_INTERVAL_MS = 100;
@@ -72,19 +71,10 @@ export function JourneyView() {
       {/* the skip is a cut; this rides over the seam */}
       {skipToken > 0 && <div key={`cut-${skipToken}`} className="cut" aria-hidden />}
 
-      <SceneLoader label="Charting the route…" />
       <div className="journey-vignette" />
 
       {started && (
         <div className="hud">
-          <div className="hud-id">
-            <div className="hud-live">
-              <span className="hud-dot" />
-              <div className="hud-label">Outbound</div>
-            </div>
-            <div className="hud-sub">Sol · heliocentric transit</div>
-          </div>
-
           <div className="hud-stats">
             <div className="hud-stat">
               <div className="hud-stat-label">Travelled</div>
@@ -129,6 +119,7 @@ export function JourneyView() {
 
       {!started && (
         <div className="start">
+          <div className="start-credit">Made by Taner Talas</div>
           <div className="start-card">
             <h1 className="start-title">{START_TITLE}</h1>
             <p className="start-sub">{START_SUBTITLE}</p>

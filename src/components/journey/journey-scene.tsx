@@ -6,6 +6,7 @@ import * as THREE from "three";
 import { BlackHole, initialHoleState } from "@/components/three/black-hole";
 import { Planet } from "@/components/three/planet";
 import { Starfield } from "@/components/three/starfield";
+import { StarPoints } from "@/components/three/star-points";
 import { BODIES } from "@/data/bodies";
 
 /** scene units: 1 = one million km of real distance */
@@ -162,6 +163,8 @@ export function JourneyScene({
   const stage = useRef<Stage>("flight");
   const hole = useRef(initialHoleState());
   const fog = useRef<THREE.FogExp2>(null);
+  /** the fog swallows the Milky Way; the stars need telling */
+  const skyDim = useRef(1);
 
   useEffect(() => {
     if (skipToken === 0) return;
@@ -173,6 +176,7 @@ export function JourneyScene({
     if (replayToken === 0) return;
     clock.current = 0;
     stage.current = "flight";
+    skyDim.current = 1;
     Object.assign(hole.current, initialHoleState());
     if (fog.current) fog.current.density = 0;
   }, [replayToken]);
@@ -201,6 +205,7 @@ export function JourneyScene({
       const burst = THREE.MathUtils.clamp((coda - DARK_SECONDS) / BURST_SECONDS, 0, 1);
 
       if (fog.current) fog.current.density = FOG_DENSITY * smooth(dark);
+      skyDim.current = 1 - smooth(dark);
 
       // once it has landed the view eases back, clearing room for the card
       const settle = THREE.MathUtils.clamp(
@@ -261,6 +266,7 @@ export function JourneyScene({
       {/* nothing here is ever closer than a flyby, so 1k maps are already
           about one texel per pixel — and twelve of them stay in memory */}
       <Starfield res="1k" radius={9000} />
+      <StarPoints count={1600} dim={skyDim} />
 
       {/* the Sun lights every body; real falloff would leave the outer planets black */}
       <pointLight position={layout[0].position} intensity={2.6} decay={0} />

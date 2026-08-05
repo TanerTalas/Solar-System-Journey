@@ -18,7 +18,11 @@ const LIMIT = 700;
 
 /** the REST summary is already plain text; keep it that way */
 function trim(extract) {
-  const clean = extract.replace(/\s+/g, " ").trim();
+  const clean = extract
+    .replace(/\s+/g, " ")
+    // the site does not use em or en dashes anywhere, including in quotes
+    .replace(/\s*[—–]\s*/g, ", ")
+    .trim();
   if (clean.length <= LIMIT) return clean;
 
   const cut = clean.slice(0, LIMIT);

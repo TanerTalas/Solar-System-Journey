@@ -33,7 +33,7 @@ export const BODIES: Body[] = [
     name: "The Sun",
     tag: "The star",
     short: "99.86% of all the mass out here. Everything that follows is leftovers.",
-    long: "A G-type main-sequence star, four and a half billion years into a ten-billion-year life. Its core fuses about 600 million tonnes of hydrogen every second, and the light released can take a hundred thousand years to escape to the surface — then just over eight minutes to reach you. Every element in your body heavier than hydrogen was forged in a star like it.",
+    long: "A G-type main-sequence star, four and a half billion years into a ten-billion-year life. Its core fuses about 600 million tonnes of hydrogen every second, and the light released can take a hundred thousand years to escape to the surface, then just over eight minutes to reach you. Every element in your body heavier than hydrogen was forged in a star like it.",
     stats: [
       { label: "Diameter", value: "1.39 million km" },
       { label: "Surface", value: "5,505 °C" },
@@ -93,7 +93,7 @@ export const BODIES: Body[] = [
     name: "Earth",
     tag: "Third planet",
     short: "The only world we know that looks back.",
-    long: "The only place in the universe confirmed to host life. Seventy-one percent of it is covered by liquid water, its atmosphere burns up most incoming debris, and a magnetic field deflects the solar wind. From six billion kilometres away it is a single pale blue pixel — every human story so far has happened on it.",
+    long: "The only place in the universe confirmed to host life. Seventy-one percent of it is covered by liquid water, its atmosphere burns up most incoming debris, and a magnetic field deflects the solar wind. From six billion kilometres away it is a single pale blue pixel; every human story so far has happened on it.",
     stats: [
       { label: "Radius", value: "6,371 km" },
       { label: "From the Sun", value: "149.6 M km" },

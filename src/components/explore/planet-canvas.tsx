@@ -6,6 +6,7 @@ import { memo, Suspense, useRef, useState } from "react";
 import * as THREE from "three";
 import { Planet } from "@/components/three/planet";
 import { Starfield } from "@/components/three/starfield";
+import { StarPoints } from "@/components/three/star-points";
 import type { Body } from "@/data/bodies";
 import {
   usePrefersReducedMotion,
@@ -86,6 +87,7 @@ export const PlanetCanvas = memo(function PlanetCanvas({ body }: { body: Body })
       <Suspense fallback={null}>
         {/* the sky is out of focus behind the body — it never needs the big map */}
         <Starfield res="1k" />
+        <StarPoints count={1100} />
         <Stage key={body.slug} body={body} reduced={reduced} res={res} segments={segments} />
       </Suspense>
     </Canvas>

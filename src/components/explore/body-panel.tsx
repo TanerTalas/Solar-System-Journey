@@ -68,7 +68,7 @@ export function BodyPanel({ body }: { body: Body }) {
                 <a href={entry.source} target="_blank" rel="noreferrer">
                   {entry.title}
                 </a>{" "}
-                — CC BY-SA 4.0
+                · CC BY-SA 4.0
               </>
             )}
             <br />

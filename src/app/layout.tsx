@@ -17,7 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Solar System Journey",
   description:
-    "The Sun to the last planet at true spacing — a sprint between worlds, a breath beside each one.",
+    "Fly the Sun to the last planet at true spacing, then meet each world up close: what it is, how big, how far, and the pictures we have of it.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
