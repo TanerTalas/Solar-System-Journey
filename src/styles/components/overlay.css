@@ -1,0 +1,127 @@
+@layer components {
+  .overlay {
+    @apply absolute inset-0 z-20 flex items-center justify-center animate-fade-up;
+    background: rgb(5 6 12 / 0.78);
+    backdrop-filter: blur(14px);
+    padding: clamp(20px, 4vw, 48px);
+  }
+
+  .overlay-card {
+    @apply relative flex w-full flex-col overflow-auto rounded-[14px] border bg-panel;
+    border-color: rgb(145 132 217 / 0.22);
+    gap: 22px;
+    max-width: 800px;
+    max-height: 84vh;
+    padding: clamp(28px, 4vw, 44px);
+  }
+
+  .overlay-close {
+    @apply absolute right-4 top-4 flex size-[34px] cursor-pointer items-center justify-center rounded-lg border bg-transparent text-[13px] text-ink/[0.6];
+    border-color: rgb(233 233 237 / 0.16);
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .overlay-close:hover {
+    @apply text-ink;
+    border-color: rgb(233 233 237 / 0.45);
+  }
+
+  .overlay-eyebrow {
+    @apply font-display text-xs uppercase tracking-wide-3 text-accent;
+  }
+
+  .overlay-stats {
+    @apply flex flex-wrap border-b pb-[22px];
+    border-color: rgb(233 233 237 / 0.08);
+    gap: clamp(20px, 3.4vw, 40px);
+  }
+
+  .overlay-stat {
+    @apply flex flex-col gap-[6px];
+  }
+
+  .overlay-stat-label {
+    @apply text-[9px] uppercase text-ink/[0.4];
+    letter-spacing: 0.26em;
+  }
+
+  .overlay-stat-value {
+    @apply font-display text-[17px] font-normal;
+  }
+
+  .overlay-body {
+    @apply m-0 text-[15px] font-light text-ink/[0.78];
+    line-height: 1.9;
+    text-wrap: pretty;
+  }
+
+  .overlay-credit {
+    @apply border-t pt-[18px] text-[9px] uppercase text-ink/[0.28];
+    border-color: rgb(233 233 237 / 0.08);
+    letter-spacing: 0.24em;
+  }
+
+  /* ── NASA archive ───────────────────────────────────────── */
+
+  /* paired with .overlay-card in the markup */
+  .nasa-card {
+    @apply gap-5;
+    max-width: 1080px;
+    max-height: 86vh;
+    padding: clamp(24px, 3.6vw, 40px);
+  }
+
+  /* the same waiting line, over a canvas instead of inside a card */
+  .scene-loading {
+    @apply pointer-events-none absolute left-1/2 top-1/2 z-[2] -translate-x-1/2 -translate-y-1/2
+           text-[11px] uppercase tracking-wide-2 text-ink/[0.45];
+    animation: pulseSoft 1.8s ease-in-out infinite;
+  }
+
+  .nasa-status {
+    @apply py-14 text-center text-[11px] uppercase tracking-wide-2 text-ink/[0.45];
+    animation: pulseSoft 1.8s ease-in-out infinite;
+  }
+
+  .nasa-empty {
+    @apply flex flex-col items-center gap-3 py-14;
+  }
+
+  .nasa-empty-title {
+    @apply font-display text-xl font-light text-ink/[0.7];
+  }
+
+  .nasa-empty-sub {
+    @apply text-[11px] uppercase text-ink/[0.35];
+    letter-spacing: 0.28em;
+  }
+
+  .nasa-grid {
+    @apply grid gap-3;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .nasa-tile {
+    @apply overflow-hidden rounded-[10px];
+    aspect-ratio: 1 / 1;
+    background: rgb(255 255 255 / 0.04);
+  }
+
+  .nasa-img {
+    @apply block size-full object-cover;
+    transition: transform 0.35s ease;
+  }
+
+  .nasa-img:hover {
+    transform: scale(1.04);
+  }
+
+  @media (orientation: portrait) {
+    .overlay-card,
+    .nasa-card {
+      max-height: 100dvh;
+    }
+  }
+}

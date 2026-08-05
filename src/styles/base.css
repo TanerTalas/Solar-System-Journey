@@ -1,0 +1,51 @@
+@layer base {
+  html,
+  body {
+    @apply m-0 h-full overflow-hidden bg-void p-0;
+  }
+
+  body {
+    @apply font-body text-ink antialiased select-none;
+  }
+
+  a {
+    @apply text-accent-200 no-underline;
+  }
+
+  a:hover {
+    @apply text-ink;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(145 132 217 / 0.45) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(145 132 217 / 0.35);
+    border: 2px solid rgb(10 12 22 / 0.9);
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(145 132 217 / 0.6);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

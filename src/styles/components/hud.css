@@ -1,0 +1,56 @@
+@layer components {
+  .hud {
+    @apply pointer-events-none absolute inset-x-0 top-0 flex flex-wrap items-start justify-between gap-4;
+    padding: clamp(16px, 3vw, 26px) clamp(18px, 3vw, 30px);
+    transition: opacity 0.9s ease;
+  }
+
+  .hud-id {
+    @apply flex flex-col gap-[7px];
+  }
+
+  .hud-live {
+    @apply flex items-center gap-[9px];
+  }
+
+  .hud-dot {
+    @apply size-[6px] rounded-full bg-accent;
+    box-shadow: 0 0 10px #9184d9;
+    animation: pulseSoft 2.6s ease-in-out infinite;
+  }
+
+  .hud-label {
+    @apply text-[11px] font-medium uppercase text-accent;
+    letter-spacing: 0.22em;
+  }
+
+  .hud-sub {
+    @apply text-[11px] uppercase text-ink/[0.42];
+    letter-spacing: 0.16em;
+  }
+
+  .hud-stats {
+    @apply ml-auto flex text-right;
+    gap: clamp(18px, 4vw, 38px);
+  }
+
+  .hud-stat {
+    @apply flex flex-col gap-[5px];
+  }
+
+  .hud-stat-label {
+    @apply text-[10px] uppercase tracking-wide-1 text-ink/[0.4];
+  }
+
+  .hud-stat-value {
+    @apply font-display font-light;
+    font-size: clamp(17px, 2.4vw, 21px);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hud-stat-note {
+    @apply text-[11px] text-ink/[0.38];
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+  }
+}

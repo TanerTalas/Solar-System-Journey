@@ -1,0 +1,22 @@
+@theme {
+  --color-void: #05060c;
+  --color-panel: rgb(10 12 22 / 0.92);
+  --color-ink: #e9e9ed;
+  --color-accent: #9184d9;
+  --color-accent-soft: rgb(145 132 217 / 0.22);
+  --color-accent-200: #c9c2ee;
+
+  --font-display: var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  --tracking-wide-1: 0.2em;
+  --tracking-wide-2: 0.3em;
+  --tracking-wide-3: 0.4em;
+
+  --ease-travel: cubic-bezier(0.22, 0.7, 0.3, 1);
+
+  --animate-fade-up: fadeUp 0.35s ease both;
+  --animate-fade-in: fadeIn 1.6s ease both;
+  --animate-pulse-soft: pulseSoft 2.8s ease-in-out infinite;
+  --animate-arrive: arrive 1.4s cubic-bezier(0.16, 0.84, 0.32, 1) both;
+}

@@ -1,0 +1,47 @@
+@layer components {
+  .btn {
+    @apply flex cursor-pointer items-center whitespace-nowrap border bg-transparent font-body font-medium uppercase;
+  }
+
+  /* accented, filled on hover — the primary action in the prototype.
+     always paired with .btn in the markup */
+  .btn-accent {
+    @apply h-11 gap-[10px] rounded-lg border-accent px-[22px] text-[11px] tracking-wide-1 text-ink;
+    transition:
+      background 0.25s,
+      box-shadow 0.25s,
+      transform 0.25s;
+  }
+
+  .btn-accent:hover {
+    background: rgb(145 132 217 / 0.14);
+    box-shadow: 0 0 28px rgb(145 132 217 / 0.26);
+  }
+
+  .btn-accent:active {
+    background: rgb(145 132 217 / 0.24);
+  }
+
+  .btn-outline {
+    @apply h-11 gap-[10px] rounded-lg px-[22px] text-[11px] tracking-wide-1 text-ink/[0.72];
+    border-color: rgb(233 233 237 / 0.22);
+    transition:
+      border-color 0.25s,
+      color 0.25s,
+      background 0.25s;
+  }
+
+  .btn-outline:hover {
+    @apply text-ink;
+    border-color: rgb(233 233 237 / 0.5);
+    background: rgb(233 233 237 / 0.05);
+  }
+
+  .btn-outline:active {
+    background: rgb(233 233 237 / 0.1);
+  }
+
+  .btn-icon {
+    @apply size-[13px] shrink-0;
+  }
+}
