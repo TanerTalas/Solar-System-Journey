@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
+import { siteUrl } from "@/lib/site";
 import "@/styles/index.css";
 
 const inter = Inter({
@@ -19,8 +20,8 @@ const description =
   "Fly the Sun to the last planet at true spacing, then meet each world up close: what it is, how big, how far, and the pictures we have of it.";
 
 export const metadata: Metadata = {
-  // share cards need absolute URLs; set the deploy host here
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  // share cards need absolute URLs
+  metadataBase: siteUrl(),
   title: { default: title, template: "%s" },
   description,
   applicationName: title,
