@@ -50,6 +50,22 @@ node scripts/build-wiki.mjs
 
 Bir gövdenin özeti gelmezse `bodies.ts` içindeki yazılı metin devreye girer.
 
+## Logo ve paylaşım kartı
+
+Kaynak dosyalar `assets/logo/` altında, adları gerçek boyutlarıyla. Siteye giren kopyalar:
+
+| Dosya | Ne için |
+|---|---|
+| `src/app/favicon.ico` | 16/32/48 birlikte paketli, `/favicon.ico` isteyen her şey için |
+| `src/app/icon.png` | 512, tarayıcı sekmesi |
+| `src/app/apple-icon.png` | 180, iOS ana ekran |
+| `src/app/opengraph-image.png` · `twitter-image.png` | 1200×630 paylaşım kartı |
+| `public/icon-192.png` · `icon-512.png` | `src/app/manifest.ts` içindeki PWA ikonları |
+
+Paylaşım kartının mutlak URL'i `metadataBase`'den geliyor; deploy ederken
+`NEXT_PUBLIC_SITE_URL` ayarlanmalı (örn. `https://solar-system-journey.vercel.app`),
+yoksa `http://localhost:3000` varsayılır.
+
 ## Yapı
 
 ```
